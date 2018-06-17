@@ -4,7 +4,7 @@ import sys, os
 sys.path.append(os.path.join(os.path.dirname(sys.path[0])))
 
 import json
-from flask import Flask, Response, request
+from flask import Flask, Response, request, render_template
 from helloworld.flaskrun import flaskrun
 #add this for th
 import requests
@@ -64,7 +64,10 @@ def get_ip_meta():
     user_ip = str(request.environ['REMOTE_ADDR'])
     service_url = 'http://ipinfo.io/{}'.format(user_ip) 
     return requests.get(service_url).json()
-    
+
+@application.route('/<string:form>/')
+def static_page(form):
+    return render_template('%s.html' % form)
     
 if __name__ == '__main__':
     flaskrun(application)
